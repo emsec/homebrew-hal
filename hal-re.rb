@@ -5,6 +5,12 @@ class HalRe < Formula
       :tag      => "v1.0.13",
       :revision => "c951ac1381f9008613d43790b4339aff3bef7315"
   head "https://github.com/emsec/hal.git"
+
+  bottle do
+    root_url "https://dl.bintray.com/emsec/bottles-hal/"
+    sha256 "ea37957aa40bb167d64a2156ad8a5415593c5d943f8fccc39210f5f2eb3a07a4" => :mojave
+  end
+
   depends_on "cmake" => :build
   depends_on "ninja" => :build
   depends_on "pkg-config" => :build
