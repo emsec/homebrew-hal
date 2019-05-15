@@ -7,18 +7,15 @@ class HalRe < Formula
   head "https://github.com/emsec/hal.git"
   depends_on "cmake" => :build
   depends_on "llvm" => :build
-  depends_on "pkgconfig" => :build
-  depends_on "rapidjson" => :build
   depends_on "ninja" => :build
-  depends_on "qt"
-  depends_on "libomp"
+  depends_on "pkg-config" => :build
+  depends_on "rapidjson" => :build
   depends_on "boost"
+  depends_on "libomp"
   depends_on "python"
-  version "1.0.13"
+  depends_on "qt"
 
   def install
-    # ENV.deparallelize  # if your formula fails when building in parallel
-    # Remove unrecognized options if warned by configure
     args =  %W[
       -DBUILD_ALL_PLUGINS=ON
       -DBUILD_TESTS=OFF
