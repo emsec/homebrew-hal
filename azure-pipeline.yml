@@ -67,9 +67,9 @@ jobs:
         HOMEBREW_BINTRAY_KEY: $(HOMEBREW_BINTRAY_KEY)
 
 
-- job: audit
+- job: audit_style
 
-  displayName: "Audit"
+  displayName: "Audit & Style"
 
   pool:
     vmImage: macOS-10.14
@@ -91,6 +91,10 @@ jobs:
     - bash: |
         brew audit --strict --online $(package) --verbose
       displayName: Audit $(package)
+
+    - bash: |
+        brew style  $(package) --verbose
+      displayName: Style $(package)
 
 
 - job: build_test

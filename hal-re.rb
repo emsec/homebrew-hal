@@ -6,12 +6,12 @@ class HalRe < Formula
       :revision => "c951ac1381f9008613d43790b4339aff3bef7315"
   head "https://github.com/emsec/hal.git"
   depends_on "cmake" => :build
-  depends_on "llvm"
   depends_on "ninja" => :build
   depends_on "pkg-config" => :build
   depends_on "rapidjson" => :build
   depends_on "boost"
   depends_on "libomp"
+  depends_on "llvm"
   depends_on "python"
   depends_on "qt"
 
