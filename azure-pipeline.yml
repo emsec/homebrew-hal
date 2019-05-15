@@ -51,8 +51,8 @@ jobs:
     - bash: |
         sudo xcode-select --switch /Applications/Xcode_10.2.app/Contents/Developer
         brew update-reset /usr/local/Homebrew
-        mkdir -p /usr/local/Homebrew/Library/Taps/hal-re
-        ln -s $PWD /usr/local/Homebrew/Library/Taps/hal-re/homebrew-hal
+        mkdir -p /usr/local/Homebrew/Library/Taps/emsec
+        ln -s $PWD /usr/local/Homebrew/Library/Taps/emsec/homebrew-hal
       displayName: Setup environment
 
     - bash: |
@@ -84,8 +84,8 @@ jobs:
     - bash: |
         sudo xcode-select --switch /Applications/Xcode_10.2.app/Contents/Developer
         brew update-reset /usr/local/Homebrew
-        mkdir -p /usr/local/Homebrew/Library/Taps/hal-re
-        ln -s $PWD /usr/local/Homebrew/Library/Taps/hal-re/homebrew-hal
+        mkdir -p /usr/local/Homebrew/Library/Taps/emsec
+        ln -s $PWD /usr/local/Homebrew/Library/Taps/emsec/homebrew-hal
       displayName: Setup environment for $(package)
 
     - bash: |
@@ -111,8 +111,8 @@ jobs:
     - bash: |
         sudo xcode-select --switch /Applications/Xcode_10.2.app/Contents/Developer
         brew update-reset /usr/local/Homebrew
-        mkdir -p /usr/local/Homebrew/Library/Taps/hal-re
-        ln -s $PWD /usr/local/Homebrew/Library/Taps/hal-re/homebrew-hal
+        mkdir -p /usr/local/Homebrew/Library/Taps/emsec
+        ln -s $PWD /usr/local/Homebrew/Library/Taps/emsec/homebrew-hal
       displayName: Setup environment for $(package)
 
     - bash: |
