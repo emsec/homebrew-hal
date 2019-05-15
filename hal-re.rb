@@ -16,6 +16,7 @@ class HalRe < Formula
   depends_on "qt"
 
   def install
+    libomp = Formula["libomp"]
     args = %W[
       -DBUILD_ALL_PLUGINS=ON
       -DBUILD_TESTS=OFF
@@ -23,6 +24,9 @@ class HalRe < Formula
       -DBUILD_DOCUMENTATION=OFF
       -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
       -DBOOST_ROOT=#{Formula["boost"].opt_prefix}
+      -DOpenMP_CXX_FLAGS='-Xpreprocessor -fopenmp -I#{libomp.include}'
+      -DOpenMP_CXX_LIB_NAMES=omp
+      -DOpenMP_omp_LIBRARY=#{libomp.lib}/libomp.dylib
     ] + std_cmake_args
     mkdir "build" do
       system "cmake", "..", *args
