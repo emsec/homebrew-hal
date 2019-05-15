@@ -17,19 +17,25 @@ class HalRe < Formula
 
   def install
     libomp = Formula["libomp"]
-    args = %W[
-      -DBUILD_ALL_PLUGINS=ON
-      -DBUILD_TESTS=OFF
-      -DWITH_GUI=ON
-      -DBUILD_DOCUMENTATION=OFF
-      -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
-      -DBOOST_ROOT=#{Formula["boost"].opt_prefix}
-      -DOpenMP_CXX_FLAGS='-Xpreprocessor -fopenmp -I#{libomp.include}'
-      -DOpenMP_CXX_LIB_NAMES=omp
-      -DOpenMP_omp_LIBRARY=#{libomp.lib}/libomp.dylib
-    ] + std_cmake_args
+    llvm = Formula["llvm"]
+    ENV["CPPFLAGS"]="-I#{llvm.include}"
+    ENV["LDFLAGS"]="-L#{llvm.lib} -Wl,-rpath,#{llvm.lib}"
+    args = [
+      "-DBUILD_ALL_PLUGINS=ON",
+      "-DBUILD_TESTS=OFF",
+      "-DWITH_GUI=ON",
+      "-DBUILD_DOCUMENTATION=OFF",
+      "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON",
+      "-DBOOST_ROOT=#{Formula["boost"].opt_prefix}",
+      "-DOpenMP_C_FLAGS='-Xpreprocessor -fopenmp -I#{libomp.include}'",
+      "-DOpenMP_CXX_FLAGS='-Xpreprocessor -fopenmp -I#{libomp.include}'",
+      "-DOpenMP_CXX_LIB_NAMES=omp",
+      "-DOpenMP_omp_LIBRARY=#{libomp.lib}/libomp.dylib",
+      "-DCMAKE_CXX_COMPILER=#{llvm.bin}/clang++",
+      "-DCMAKE_C_COMPILER=#{llvm.bin}/clang",
+    ]
     mkdir "build" do
-      system "cmake", "..", *args
+      system "cmake", *args, *std_cmake_args, ".."
       system "make", "install", "-j#{ENV.make_jobs}"
     end
   end
