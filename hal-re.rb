@@ -16,7 +16,6 @@ class HalRe < Formula
   depends_on "qt"
 
   def install
-    libomp = Formula["libomp"]
     llvm = Formula["llvm"]
     ENV["CPPFLAGS"]="-I#{llvm.include}"
     ENV["LDFLAGS"]="-L#{llvm.lib} -Wl,-rpath,#{llvm.lib}"
