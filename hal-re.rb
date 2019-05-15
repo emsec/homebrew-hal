@@ -16,7 +16,7 @@ class HalRe < Formula
   depends_on "qt"
 
   def install
-    args =  %W[
+    args = %W[
       -DBUILD_ALL_PLUGINS=ON
       -DBUILD_TESTS=OFF
       -DWITH_GUI=ON
@@ -28,7 +28,6 @@ class HalRe < Formula
       system "cmake", "..", *args
       system "make", "install", "-j#{ENV.make_jobs}"
     end
-
   end
 
   test do
