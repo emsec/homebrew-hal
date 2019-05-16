@@ -65,8 +65,7 @@ jobs:
       env:
         HOMEBREW_BINTRAY_USER: $(HOMEBREW_BINTRAY_USER)
         HOMEBREW_BINTRAY_KEY: $(HOMEBREW_BINTRAY_KEY)
-      conditon:
-        and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/v'))
+      conditon: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/v'))
 
 
 - job: audit_style
