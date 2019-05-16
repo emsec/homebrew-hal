@@ -8,8 +8,8 @@ class HalRe < Formula
 
   bottle do
     root_url "https://dl.bintray.com/emsec/bottles-hal/"
-    rebuild 1
-    sha256 "99719a3c13ced0820281afb848da36297abde3a55006b1853fc25fe79f248b93" => :mojave
+    rebuild 2
+    sha256 "ebae0d64c625e92e53f938a4fe965342530a443ff53d2ba268b7678ce0f46ba6" => :mojave
   end
 
   depends_on "cmake" => :build
@@ -27,7 +27,7 @@ class HalRe < Formula
     ENV["CPPFLAGS"]="-I#{llvm.include}"
     ENV["LDFLAGS"]="-L#{llvm.lib} -Wl,-rpath,#{llvm.lib}"
     args = [
-      "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
+      "-DCMAKE_BUILD_TYPE=Debug",
       "-DBUILD_ALL_PLUGINS=ON",
       "-DBUILD_TESTS=OFF",
       "-DWITH_GUI=ON",
