@@ -26,6 +26,7 @@ class HalRe < Formula
     ENV["CPPFLAGS"]="-I#{llvm.include}"
     ENV["LDFLAGS"]="-L#{llvm.lib} -Wl,-rpath,#{llvm.lib}"
     args = [
+      "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
       "-DBUILD_ALL_PLUGINS=ON",
       "-DBUILD_TESTS=OFF",
       "-DWITH_GUI=ON",
