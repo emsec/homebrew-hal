@@ -8,8 +8,8 @@ class HalRe < Formula
 
   bottle do
     root_url "https://dl.bintray.com/emsec/bottles-hal/"
-    rebuild 2
-    sha256 "ebae0d64c625e92e53f938a4fe965342530a443ff53d2ba268b7678ce0f46ba6" => :mojave
+    rebuild 3
+    sha256 "195b40094f4051928f1dd4144b0801203dad42eef183bebb4d77049dd7b22955" => :mojave
   end
 
   depends_on "cmake" => :build
@@ -23,11 +23,12 @@ class HalRe < Formula
   depends_on "qt"
 
   def install
+    libomp = Formula["libomp"]
     llvm = Formula["llvm"]
     ENV["CPPFLAGS"]="-I#{llvm.include}"
     ENV["LDFLAGS"]="-L#{llvm.lib} -Wl,-rpath,#{llvm.lib}"
     args = [
-      "-DCMAKE_BUILD_TYPE=Debug",
+      "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
       "-DBUILD_ALL_PLUGINS=ON",
       "-DBUILD_TESTS=OFF",
       "-DWITH_GUI=ON",
@@ -36,6 +37,9 @@ class HalRe < Formula
       "-DBOOST_ROOT=#{Formula["boost"].opt_prefix}",
       "-DCMAKE_CXX_COMPILER=#{llvm.bin}/clang++",
       "-DCMAKE_C_COMPILER=#{llvm.bin}/clang",
+      "-DOpenMP_CXX_FLAGS=\"-Xpreprocessor -fopenmp -I#{libomp.include}\"",
+      "-DOpenMP_CXX_LIB_NAMES=\"omp\"",
+      "-DOpenMP_omp_LIBRARY=#{libomp.lib}/libomp.a",
     ]
     mkdir "build" do
       system "cmake", *args, *std_cmake_args, ".."
