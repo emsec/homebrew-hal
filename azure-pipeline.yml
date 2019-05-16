@@ -47,8 +47,8 @@ jobs:
   strategy:
     maxParallel: 8
     matrix:
-       hal-re:
-        package: hal-re
+       hal:
+        package: hal
 
   steps:
     - bash: |
@@ -81,8 +81,8 @@ jobs:
   strategy:
     maxParallel: 8
     matrix:
-      hal-re:
-        package: hal-re
+      hal:
+        package: hal
 
   steps:
     - bash: |
@@ -112,8 +112,8 @@ jobs:
   strategy:
     maxParallel: 8
     matrix:
-      hal-re:
-        package: hal-re
+      hal:
+        package: hal
 
   steps:
     - bash: |
