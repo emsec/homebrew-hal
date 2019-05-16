@@ -37,9 +37,6 @@ class HalRe < Formula
       "-DBOOST_ROOT=#{Formula["boost"].opt_prefix}",
       "-DCMAKE_CXX_COMPILER=#{llvm.bin}/clang++",
       "-DCMAKE_C_COMPILER=#{llvm.bin}/clang",
-      "-DOpenMP_CXX_FLAGS=\"-Xpreprocessor -fopenmp -I#{libomp.include}\"",
-      "-DOpenMP_CXX_LIB_NAMES=\"omp\"",
-      "-DOpenMP_omp_LIBRARY=#{libomp.lib}/libomp.a",
     ]
     mkdir "build" do
       system "cmake", *args, *std_cmake_args, ".."
