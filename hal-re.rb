@@ -7,7 +7,7 @@ class HalRe < Formula
   head "https://github.com/emsec/hal.git"
 
   bottle do
-    root_url "https://dl.bintray.com/emsec/bottles-hal/"
+    root_url "https://dl.bintray.com/emsec/bottles-hal"
     rebuild 4
     sha256 "00313f6312e7066b4e360a049a38f466debea6349e315fd7c0417c7f11ffe21c" => :mojave
   end
