@@ -5,7 +5,7 @@ class Hal < Formula
       :tag      => "v1.0.19",
       :revision => "e7f065aea39facb655e47579850d4ebc9f41836a"
   head "https://github.com/emsec/hal.git"
-  
+
   bottle do
     root_url "https://dl.bintray.com/emsec/bottles-hal/"
     rebuild 1
