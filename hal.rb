@@ -5,10 +5,11 @@ class Hal < Formula
       :tag      => "v1.0.18",
       :revision => "e4c58c193c6bff3a4acdfcad58c314e81d883aff"
   head "https://github.com/emsec/hal.git"
-
+  
   bottle do
     root_url "https://dl.bintray.com/emsec/bottles-hal/"
-    sha256 "3249d5c60e5c0ceafe5fa6832c90803c353e17c39036fed1b27903a8a9509a5b" => :mojave
+    rebuild 1
+    sha256 "6c73ba0f284e5c9b41c82cb05350042195a44def00dc1911567c16ccf010c879" => :mojave
   end
 
   depends_on "cmake" => :build
