@@ -8,8 +8,7 @@ class Hal < Formula
 
   bottle do
     root_url "https://dl.bintray.com/emsec/bottles-hal/"
-    rebuild 2
-    sha256 "6ba771a8fe81fe5274ef6bbd5b704aedd8602e74a808ba990f9580fc072385cc" => :mojave
+    sha256 "e3a654ad1cb1d94389454bbc4e82aeafaa7009db9bf104c0030a60e79ef572f9" => :mojave
   end
 
   depends_on "cmake" => :build
