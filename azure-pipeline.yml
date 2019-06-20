@@ -64,6 +64,8 @@ jobs:
 
     - bash: |
         brew test-bot $(package) --ci-upload --root-url="https://dl.bintray.com/emsec/bottles-hal/" --bintray-org="emsec" --verbose
+        export VERSION_STRING=${$(git describe --tag)#?}
+        curl -u$(HOMEBREW_BINTRAY_USER):$(OMEBREW_BINTRAY_KEY) -H Content-Type:application/json -H Accept:application/json -X POST https://api.bintray.com/content/emsec/bottles-hal/hal/$VERSION_STRING/publish -d "{ \"discard\": \"false\" }"
       displayName: Brew test-bot --ci-upload $(package)
       env:
         HOMEBREW_BINTRAY_USER: $(HOMEBREW_BINTRAY_USER)
