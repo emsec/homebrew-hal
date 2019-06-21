@@ -58,19 +58,6 @@ jobs:
         mkdir -p /usr/local/Homebrew/Library/Taps/emsec
         ln -s $PWD /usr/local/Homebrew/Library/Taps/emsec/homebrew-hal
       displayName: Setup environment
-    # Install SSH Key
-    # Install an SSH key prior to a build or release
-    - task: InstallSSHKey@0
-      inputs:
-        hostName: github.com
-        sshPublicKey: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDHsvV3p3m23XZETTM6jTkvrbfGYjOur68YnYZJ1TaFm2b/XUhN+cjmeMVbfxjlev4M1y8mLQtAqsbrb6dgXuqNzes9iMXNFm7QTBuKwTy+XcNtxGmr2wg+BzIHhR4UEizdtWMJbUpnszY8TGQmDo5kbcgWt8ZJUm0f59+ft9PfCngxfnuLbQHj8DMLpWpHVkCeW2r9i1LtS+qzQU2jcz8JVPb7Ajg7cxkI1uZDBnPzFwm3EeGMaNIxQl6Z4zZEwe0rsVYlmpK9Xo/j/kIuA7258MRBkVi70RoSsBpki6a2m0wiJJdljgq5uNqMK9acklRuLREfQMj4O1ZM+MIBtyM/SiuisPnuWamLlNhsrBc+FCb9w6Pnhzhnc4C4fBWgQ4AYjhQwQxBJh7HKOu4vJ9ps3F/tRee8wvsb6YjpDvPgNLhe5EaAasizylSe9BDZq3CwAmEjcLPkz5lT2d8n6msIIYbvMr1t2Wg0Y50qNbO5AHel9RoRwrudReBNaHi8fbJJIeW8vlitJNYTMJJlJPVPeOyHoZ/RAYuNa1LM3O5OsEiCcLfHm4/YnQlLtsiIwm1ALhL9/9rV5TsrD85r5r5k9TaEs0TSqpxyUt1IRiRFZABG5pV67QpWoALBF/XsyepqsYjbY7TgeTw6q1r+Wx2Ybd5MbVhlj1vmyYnqdyIxfw== sw@SWMBPR.local"
-        #sshPassphrase: # Optional
-        sshKeySecureFile: hal_deployment.key
-      displayName: Install SSH Deploy Key
-      env:
-        HOMEBREW_BINTRAY_USER: $(HOMEBREW_BINTRAY_USER)
-        HOMEBREW_BINTRAY_KEY: $(HOMEBREW_BINTRAY_KEY)
-      condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/v'))
 
     - bash: |
         brew test-bot $(package) --root-url="https://dl.bintray.com/emsec/bottles-hal/" --verbose
@@ -80,16 +67,13 @@ jobs:
         export VERSION_STRING=$(git describe --tag --dirty="" --broken="" --abbrev=0)
         export VERSION_STRING=$(python -c "exec('print(\"$VERSION_STRING\"[1:])')")
         curl -u$(HOMEBREW_BINTRAY_USER):$(HOMEBREW_BINTRAY_KEY) -H Content-Type:application/json -H Accept:application/json -X POST https://api.bintray.com/content/emsec/bottles-hal/hal/$VERSION_STRING/publish -d "{ \"discard\": \"false\" }"
-        git clone git@github.com:emsec/homebrew-hal.git
-        cp hal.rb homebrew-hal
-        cd homebrew-hal
-        git add hal.rb
-        git commit --author="Azure CI<azure@azureci.local>" -m "Updated bottle"
-        git push
+        ssh-keyscan github.com > ~/.ssh/known_hosts'
+        git push https://$GITHUB_PAT@github.com/emsec/homebrew-hal.git
       displayName: Brew test-bot --ci-upload $(package)
       env:
         HOMEBREW_BINTRAY_USER: $(HOMEBREW_BINTRAY_USER)
         HOMEBREW_BINTRAY_KEY: $(HOMEBREW_BINTRAY_KEY)
+        GITHUB_PAT: $(GITHUB_PAT)
       condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/v'))
 
 
