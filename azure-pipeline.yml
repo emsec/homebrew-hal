@@ -73,7 +73,7 @@ jobs:
         rm fifo
         ssh-keyscan github.com > ~/.ssh/known_hosts
         export VERSION_STRING=$(git describe --tag)
-        export VERSION_STRING=${$VERSION_STRING#?}
+        export VERSION_STRING=$(python -c "exec('print(\"$VERSION_STRING\"[1:])')")
         curl -u$(HOMEBREW_BINTRAY_USER):$(HOMEBREW_BINTRAY_KEY) -H Content-Type:application/json -H Accept:application/json -X POST https://api.bintray.com/content/emsec/bottles-hal/hal/$VERSION_STRING/publish -d "{ \"discard\": \"false\" }"
         git remote set-url origin git@github.com:emsec/homebrew-hal.git
         git push
