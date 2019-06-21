@@ -63,13 +63,20 @@ jobs:
       displayName: Brew test-bot $(package)
 
     - bash: |
+        'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+        mkdir -p ~/.ssh
+        eval $(ssh-agent -s)
+        ssh-add <(echo "$GITHUB_DEPLOY_KEY")
+        'ssh-keyscan github.com > ~/.ssh/known_hosts'
         brew test-bot $(package) --ci-upload --root-url="https://dl.bintray.com/emsec/bottles-hal/" --bintray-org="emsec" --verbose
         export VERSION_STRING=${$(git describe --tag)#?}
-        curl -u$(HOMEBREW_BINTRAY_USER):$(OMEBREW_BINTRAY_KEY) -H Content-Type:application/json -H Accept:application/json -X POST https://api.bintray.com/content/emsec/bottles-hal/hal/$VERSION_STRING/publish -d "{ \"discard\": \"false\" }"
+        curl -u$(HOMEBREW_BINTRAY_USER):$(HOMEBREW_BINTRAY_KEY) -H Content-Type:application/json -H Accept:application/json -X POST https://api.bintray.com/content/emsec/bottles-hal/hal/$VERSION_STRING/publish -d "{ \"discard\": \"false\" }"
+        git push
       displayName: Brew test-bot --ci-upload $(package)
       env:
         HOMEBREW_BINTRAY_USER: $(HOMEBREW_BINTRAY_USER)
         HOMEBREW_BINTRAY_KEY: $(HOMEBREW_BINTRAY_KEY)
+        GITHUB_DEPLOY_KEY: $(GITHUB_DEPLOY_KEY)
       condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/v'))
 
 
