@@ -67,7 +67,9 @@ jobs:
         'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
         mkdir -p ~/.ssh
         eval $(ssh-agent -s)
-        ssh-add <(echo "$GITHUB_DEPLOY_KEY")
+        mkfifo -m 600 fifo
+        (echo "$GITHUB_DEPLOY_KEY")> fifo | ssh-add fifo
+        rm fifo
         'ssh-keyscan github.com > ~/.ssh/known_hosts'
         brew test-bot $(package) --ci-upload --root-url="https://dl.bintray.com/emsec/bottles-hal/" --bintray-org="emsec" --verbose
         export VERSION_STRING=${$(git describe --tag)#?}
