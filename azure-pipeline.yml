@@ -40,7 +40,8 @@ jobs:
 
   displayName: "Create bottles"
   condition: or(eq(variables['Build.Reason'], 'IndividualCI'), eq(variables['Build.Reason'], 'Manual'), eq(variables['Build.Reason'], 'Schedule'))
-
+  timeoutInMinutes: 240
+  cancelTimeoutInMinutes: 5
   pool:
     vmImage: macOS-10.14
 
@@ -83,7 +84,8 @@ jobs:
 - job: audit_style
 
   displayName: "Audit & Style"
-
+  timeoutInMinutes: 240
+  cancelTimeoutInMinutes: 5
   pool:
     vmImage: macOS-10.14
 
