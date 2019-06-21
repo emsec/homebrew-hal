@@ -71,16 +71,20 @@ jobs:
         HOMEBREW_BINTRAY_USER: $(HOMEBREW_BINTRAY_USER)
         HOMEBREW_BINTRAY_KEY: $(HOMEBREW_BINTRAY_KEY)
       condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/v'))
-      
+
     - bash: |
         brew test-bot $(package) --root-url="https://dl.bintray.com/emsec/bottles-hal/" --verbose
       displayName: Brew test-bot $(package)
     - bash: |
         brew test-bot $(package) --ci-upload --root-url="https://dl.bintray.com/emsec/bottles-hal/" --bintray-org="emsec" --verbose
-        export VERSION_STRING=$(git describe --tag)
+        export VERSION_STRING=$(git describe --tag --dirty="" --broken="" --abbrev=0)
         export VERSION_STRING=$(python -c "exec('print(\"$VERSION_STRING\"[1:])')")
         curl -u$(HOMEBREW_BINTRAY_USER):$(HOMEBREW_BINTRAY_KEY) -H Content-Type:application/json -H Accept:application/json -X POST https://api.bintray.com/content/emsec/bottles-hal/hal/$VERSION_STRING/publish -d "{ \"discard\": \"false\" }"
-        git remote set-url origin git@github.com:emsec/homebrew-hal.git
+        git clone git@github.com:emsec/homebrew-hal.git
+        cp hal.rb homebrew-hal
+        cd homebrew-hal
+        git add hal.rb
+        git commit --author="Azure CI<azure@azureci.local>" -m "Updated bottle"
         git push
       displayName: Brew test-bot --ci-upload $(package)
       env:
