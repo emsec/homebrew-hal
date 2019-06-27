@@ -2,8 +2,8 @@ class Hal < Formula
   desc "HAL - The Hardware Analyzer"
   homepage "https://github.com/emsec/hal"
   url "https://github.com/emsec/hal.git",
-      :tag      => "v1.1.0",
-      :revision => "d85490fcc98beb2aa61fa9ab3154b67423231db9"
+      :tag      => "v1.1.0.1",
+      :revision => "45cfb0b9d2cde7eafef73bede963ede3b7b6d4a8"
   head "https://github.com/emsec/hal.git"
 
   bottle do
