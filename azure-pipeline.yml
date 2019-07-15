@@ -67,6 +67,7 @@ jobs:
         brew test-bot $(package) --root-url="https://dl.bintray.com/emsec/bottles-hal/" --verbose
       displayName: Brew test-bot $(package)
     - bash: |
+        unset HOMEBREW_DISABLE_LOAD_FORMULA
         brew test-bot $(package) --ci-upload --root-url="https://dl.bintray.com/emsec/bottles-hal/" --bintray-org="emsec" --verbose
         export VERSION_STRING=$(git describe --tag --dirty="" --broken="" --abbrev=0)
         export VERSION_STRING=$(python -c "exec('print(\"$VERSION_STRING\"[1:])')")
