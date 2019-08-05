@@ -21,7 +21,7 @@ class Hal < Formula
   depends_on "llvm"
   depends_on "python"
   depends_on "qt"
-  depends_in "igraph"
+  depends_on "igraph"
 
   def install
     llvm = Formula["llvm"]
