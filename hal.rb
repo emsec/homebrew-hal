@@ -16,11 +16,11 @@ class Hal < Formula
   depends_on "pkg-config" => :build
   depends_on "rapidjson" => :build
   depends_on "boost"
+  depends_on "igraph"
   depends_on "libomp"
   depends_on "llvm"
   depends_on "python"
   depends_on "qt"
-  depends_on "igraph"
 
   def install
     llvm = Formula["llvm"]
