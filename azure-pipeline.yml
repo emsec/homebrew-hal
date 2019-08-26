@@ -64,7 +64,7 @@ jobs:
       displayName: Setup environment
 
     - bash: |
-        brew test-bot $(package) --root-url="https://dl.bintray.com/emsec/bottles-hal/" --verbose
+        brew test-bot $(package) --root-url="https://dl.bintray.com/emsec/bottles-hal/" --fail-fast --skip-setup --verbose
       displayName: Brew test-bot $(package)
     - bash: |
         unset HOMEBREW_DISABLE_LOAD_FORMULA
