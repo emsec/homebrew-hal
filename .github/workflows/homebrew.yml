@@ -25,7 +25,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2-beta
 
       - name: Setup environment
         run: |
@@ -52,8 +52,8 @@ jobs:
           echo $VERSION_STRING
           curl -u$(HOMEBREW_BINTRAY_USER):$(HOMEBREW_BINTRAY_KEY) -H Content-Type:application/json -H Accept:application/json -X POST https://api.bintray.com/content/emsec/bottles-hal/hal/$VERSION_STRING/publish -d "{ \"discard\": \"false\" }"
           ssh-keyscan github.com > ~/.ssh/known_hosts
-          git push https://$GITHUB_PAT@github.com/emsec/homebrew-hal.git
+          git push
         env:
           HOMEBREW_BINTRAY_USER: ${{ secrets.HOMEBREW_BINTRAY_USER }}
           HOMEBREW_BINTRAY_KEY: ${{ secrets.HOMEBREW_BINTRAY_KEY }}
-          GITHUB_PAT: $(GITHUB_PAT)
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
