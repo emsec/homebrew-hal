@@ -50,7 +50,7 @@ jobs:
           export VERSION_STRING=$(git describe --tag --dirty="" --broken="" --abbrev=0)
           export VERSION_STRING=$(python -c "exec('print(\"$VERSION_STRING\"[1:])')")
           echo $VERSION_STRING
-          curl -u$(HOMEBREW_BINTRAY_USER):$(HOMEBREW_BINTRAY_KEY) -H Content-Type:application/json -H Accept:application/json -X POST https://api.bintray.com/content/emsec/bottles-hal/hal/$VERSION_STRING/publish -d "{ \"discard\": \"false\" }"
+          curl -u$HOMEBREW_BINTRAY_USER:$HOMEBREW_BINTRAY_KEY -H Content-Type:application/json -H Accept:application/json -X POST https://api.bintray.com/content/emsec/bottles-hal/hal/$VERSION_STRING/publish -d "{ \"discard\": \"false\" }"
           ssh-keyscan github.com > ~/.ssh/known_hosts
           git push
         env:
