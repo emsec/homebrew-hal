@@ -1,9 +1,10 @@
 class Hal < Formula
   desc "HAL - The Hardware Analyzer"
   homepage "https://github.com/emsec/hal"
-  url "https://github.com/emsec/hal.git",
-      :revision => "4dc56cbd04ca864e670845c5cede6fb70643ab29"
-  head "https://github.com/emsec/hal.git"
+  # url "https://github.com/emsec/hal.git",
+  #     :tag      => "v2.0.0",
+  #     :revision => "4dc56cbd04ca864e670845c5cede6fb70643ab29"
+  head "https://github.com/emsec/hal.git" :revision => "4dc56cbd04ca864e670845c5cede6fb70643ab29"
 
   bottle do
     root_url "https://dl.bintray.com/emsec/bottles-hal/"
