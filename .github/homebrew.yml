@@ -1,0 +1,59 @@
+name: Github CI
+
+on:
+  push:
+  create:
+    tags:
+      - v*
+
+jobs:
+  build-test:
+    name: Build
+
+    strategy:
+      matrix:
+        runs-on: [macOS-latest]
+      fail-fast: false
+
+    runs-on: ${{ matrix.runs-on }}
+
+    env:
+      - HOMEBREW_NO_ANALYTICS: 1
+      - HOMEBREW_NO_AUTO_UPDATE: 1
+      - HOMEBREW_NO_COLOR: 1
+      - HOMEBREW_NO_EMOJI: 1
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Setup environment
+        run: |
+          brew update-reset /usr/local/Homebrew
+          mkdir -p /usr/local/Homebrew/Library/Taps/emsec
+          ln -s $PWD /usr/local/Homebrew/Library/Taps/emsec/homebrew-hal
+
+      - name: Audit
+        run: brew audit --strict --online $(package) --verbose
+
+      - name: Style
+        run: brew style  $(package) --verbose
+
+      - name: Build Bottle
+        run: brew test-bot $(package) --root-url="https://dl.bintray.com/emsec/bottles-hal/" --fail-fast --skip-setup --verbose
+
+      - name: Publish Bottle
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          unset HOMEBREW_DISABLE_LOAD_FORMULA
+          brew test-bot $(package) --ci-upload --root-url="https://dl.bintray.com/emsec/bottles-hal/" --bintray-org="emsec" --verbose
+          export VERSION_STRING=$(git describe --tag --dirty="" --broken="" --abbrev=0)
+          export VERSION_STRING=$(python -c "exec('print(\"$VERSION_STRING\"[1:])')")
+          echo $VERSION_STRING
+          curl -u$(HOMEBREW_BINTRAY_USER):$(HOMEBREW_BINTRAY_KEY) -H Content-Type:application/json -H Accept:application/json -X POST https://api.bintray.com/content/emsec/bottles-hal/hal/$VERSION_STRING/publish -d "{ \"discard\": \"false\" }"
+          ssh-keyscan github.com > ~/.ssh/known_hosts
+          git push https://$GITHUB_PAT@github.com/emsec/homebrew-hal.git
+        env:
+          HOMEBREW_BINTRAY_USER: $(HOMEBREW_BINTRAY_USER)
+          HOMEBREW_BINTRAY_KEY: $(HOMEBREW_BINTRAY_KEY)
+          GITHUB_PAT: $(GITHUB_PAT)
