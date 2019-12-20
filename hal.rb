@@ -1,5 +1,5 @@
 class Hal < Formula
-  desc "HAL - The Hardware Analyzer"
+  desc "The Hardware Analyzer - HAL"
   homepage "https://github.com/emsec/hal"
   url "https://github.com/emsec/hal.git",
       :tag      => "v2.0.0",
@@ -8,7 +8,8 @@ class Hal < Formula
 
   bottle do
     root_url "https://dl.bintray.com/emsec/bottles-hal/"
-    sha256 "a91d41cfd0afbe4d191a783a39a1dee59355e8b569e51a96401c304e9e596fa6" => :mojave
+    rebuild 1
+    sha256 "8019a4868fa191a2267c202c6d21523a33bc81e230548941a3f49305cace8e0e" => :catalina
   end
 
   depends_on "cmake" => :build
