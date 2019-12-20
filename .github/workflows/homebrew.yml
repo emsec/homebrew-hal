@@ -33,11 +33,11 @@ jobs:
           mkdir -p /usr/local/Homebrew/Library/Taps/emsec
           ln -s $PWD /usr/local/Homebrew/Library/Taps/emsec/homebrew-hal
 
-      # - name: Audit
-      #   run: brew audit --strict --online hal --verbose
+      - name: Audit
+        run: brew audit --strict --online hal --verbose
 
-      # - name: Style
-      #   run: brew style  hal --verbose
+      - name: Style
+        run: brew style  hal --verbose
 
       - name: Build Bottle
         run: brew test-bot hal --root-url="https://dl.bintray.com/emsec/bottles-hal/" --fail-fast --skip-setup --verbose
